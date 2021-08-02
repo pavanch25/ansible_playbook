@@ -1,0 +1,21 @@
+- name: My first play
+  hosts:
+        - machine1.unnati.com
+        - machine2.unnati.com
+  become: yes
+  tasks:
+        - name: lets create a Directory
+          file:
+                 name: /project1
+                 state: directory
+                 mode: 0700
+        - name: Create file with content
+          copy:
+                 content:  "This is sample text from Ansible node"
+                 dest: /project1/sample.doc
+
+- name: Second play
+  hosts: machine2.unnati.com
+  tasks:
+        - name: First task of second play
+          command: "hostname"

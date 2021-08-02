@@ -1,0 +1,15 @@
+- name: Example of variables
+  hosts: client
+  become: yes
+  vars:
+          - var1: 10
+          - var2: 20
+  tasks:
+          - name: Arithmatic operation
+            debug:
+                msg:
+                        - "The var1: {{ var1 }} and var2: {{ var2 }}"
+                        - "Addition is {{ var1+var2 }}"
+                        - "Subtraction is {{ var1-var2 }}"
+                        - "Multiplication is {{ var1*var2 }}" 
+                        - "Divison is {{ var1/var2 }}"               

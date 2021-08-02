@@ -1,0 +1,22 @@
+- name: Testing vars
+  hosts: devops
+  vars:
+      - var1: httpd
+      - var2: /var/www/html/index.html
+      - state1: present
+      - state2: restarted
+  become: yes
+  tasks:
+      - name: Install {{ var1 }}
+        yum:
+           name: "{{ var1 }}"
+           state: "{{ state1 }}"
+      - name: Start {{ var1 }} service
+        service:
+           name: "{{ var1 }}"
+           state: "{{ state2 }}"
+      - name: Put Webpage
+        copy:
+           content: "push1"
+           dest: "{{ var2 }}"
+

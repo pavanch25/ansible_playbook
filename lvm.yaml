@@ -1,0 +1,26 @@
+- name: Making the LVM
+  hosts: client
+  become: yes
+  tasks:
+          - name: Create a LVG of 2GIB
+            lvg:      
+                vg: vg1
+                pvs: /dev/sdb
+                pesize: 11m
+          - name: Create a logical volume of 1GB
+            lvol:
+                vg: vg1
+                lv: lv1
+                size: 1G 
+          - name: Create a ext4 filesystem on lv1
+            filesystem:
+                fstype: ext4
+                dev: /dev/vg1/lv1
+      
+          - name: Mount up device by label
+            mount:
+                path: /mydata
+                src: /dev/vg1/lv1
+                fstype: ext4
+                state: present
+  

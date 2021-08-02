@@ -1,0 +1,35 @@
+- name: Installing httpd by using ansible variables
+  hosts: client
+  become: yes
+  vars:
+          - var1: httpd
+          - var2: installed
+          - var3: restarted
+          - var4: started
+          - path: /var/www/html/index.html  
+  tasks:
+          - name: Installing the httpd
+            yum:
+                    name: "{{ var1 }}"
+                    state: "{{ var2 }}"
+          - name: Enable the service
+            service:
+                    name: "{{ var1 }}"
+                    state:  "{{ var3 }}"
+                    enabled: yes
+          - name: copy the index.html file
+            copy:
+                    src: index.html
+                    dest: "{{ path }}"          
+          - name: start firewalld service
+            service:
+                    name: firewalld
+                    state: "{{ var4 }}"
+                    enabled: yes
+          - name: Allow HTTP in firewall        
+            firewalld:
+                    service: http
+                    permanent: yes
+                    state: enabled
+         
+

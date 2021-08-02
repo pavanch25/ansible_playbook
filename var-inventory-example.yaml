@@ -1,0 +1,13 @@
+- name: variables from inventory
+  hosts: devops
+  become: yes
+  vars:
+          - shell: "/sbin/nologin"
+  tasks:
+          - name: adding user
+            user:
+                     name: "{{ username }}"
+                     state: present
+                     comment: "{{ machine }} user {{ username }}"
+                     shell: "{{ shell }}" 
+                      

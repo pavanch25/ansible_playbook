@@ -1,0 +1,23 @@
+- name: playbook
+  hosts:
+        - machine1.unnati.com
+        - machine2.unnati.com
+  become: yes
+  tasks:
+        - name: useradd
+          user: 
+                name: pavan
+                uid: 3030
+        - name: yum install package
+          yum:  
+                name: wget
+                state: present
+- name: simple command
+  hosts:
+        - machine2.unnati.com
+  become: yes
+  tasks:
+        - name: yum list all
+          command: "yum list all"          
+
+

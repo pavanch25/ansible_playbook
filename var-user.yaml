@@ -1,0 +1,21 @@
+- name: Adding user for demo variables
+  hosts: devops
+  become: yes
+  vars:
+          - username: samual
+          - var: "Adding"
+          - ucomment: "Automation User samual"
+          - ushell: "/sbin/login"
+          - state1: present
+  tasks:
+          - name: "{{ var }} user {{ username }}"
+            user:
+                name: "{{ username }}"     
+                state: "{{ state1 }}"
+                comment: "{{ ucomment }}"
+                shell: "{{ ushell }}"
+          - name: Just printing vars
+            debug:
+                msg: "{{ username }} I am {{ var }} with {{ ucomment }} as comment, {{ ushell }} as shell and 
+                {{ state1 }} will be output"
+           

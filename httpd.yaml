@@ -1,0 +1,29 @@
+- name: apache congigure
+  hosts: group1
+  become: yes
+  tasks:
+        - name: get the httpd service
+          yum:
+                name: httpd
+                state: installed
+        - name: start apache service
+          service:
+                name: httpd
+                enabled: yes
+                state: started
+        - name: making webpage content ready
+          copy:
+                src: index.html
+                dest: /var/www/html/index.html
+        - name: start firewalld service
+          service:
+                name: firewalld
+                state: started
+                enabled: yes
+
+        - name: allow HTTP in firewall
+          firewalld:
+                service: http
+                permanent: yes
+                state: enabled
+                immediate: yes         

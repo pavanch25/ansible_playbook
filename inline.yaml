@@ -1,0 +1,11 @@
+- name: to change the specific line
+  hosts:
+        - machine2.unnati.com
+  become: yes
+  tasks:
+        - name: Ensure the default Apache port is 8080
+          lineinfile:
+                path: /etc/httpd/conf/httpd.conf
+                regexp: '^Listen '
+                insertafter: '^Listen '
+                line: Listen 8080

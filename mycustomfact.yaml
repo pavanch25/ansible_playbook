@@ -1,0 +1,18 @@
+- name: trying acess the custom facts
+  hosts: client
+  tasks:
+          - name: lets try first group application fact 
+            debug:
+                    msg: "{{ ansible_local.custom.application.app_url }}"
+          - name: lets try second value
+            debug:
+                    msg: "{{ ansible_local.custom.application.developer }}"
+          - name: lets try second group course fact
+            debug:
+                    msg: "{{ ansible_local.custom.course.course }}"
+          - name: lets try second group second value
+            debug:
+                    msg: "{{ ansible_local.custom.course.trainer }}"
+          
+
+

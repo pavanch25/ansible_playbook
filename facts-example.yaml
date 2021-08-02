@@ -1,0 +1,9 @@
+- name:
+  hosts: group1
+  become: yes
+  tasks:
+          - name: Install Maiadb
+            yum:
+                    name: mariadb
+                    state: installed
+            when: ansible_hostname=='machine2' 

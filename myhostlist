@@ -1,0 +1,14 @@
+[group1]
+machine2.unnati.com
+machine1.unnati.com
+
+[client]
+192.168.171.128
+
+[self]
+192.168.171.129
+
+[devops]
+192.168.171.128 machine=testing username=test1
+192.168.171.129 machine=production username=test2
+

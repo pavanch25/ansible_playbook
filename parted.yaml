@@ -1,0 +1,75 @@
+- name: Make the partition using parted
+  hosts: client
+  become: yes
+  tasks:
+          - name: lets create a mydata
+            file:
+                 name:  /mydata
+                 state: directory
+          - name: lets create a mydata2
+            file:
+                 name:  /mydata2
+                 state: directory       
+      
+
+          - name: (/dev/sdb1) Create a new primary partition with a size of 1GiB
+            parted:
+                 device: /dev/sdb
+                 number: 1
+                 state: present
+                 part_end: 1GiB
+          - name: (/dev/sdb2) Create a new primary partition with a size of 1GiB
+            parted:
+                 device: /dev/sdb
+                 number: 2
+                 state: present
+                 part_start: 2GiB
+                 part_end: 3GiB
+          - name: (/dev/sdb3) Create a new primary partition with a size of 1GiB
+            parted:
+                 device: /dev/sdb
+                 number: 3
+                 state: present
+                 part_start: 3GiB
+                 part_end: 4GiB   
+
+
+
+
+          - name: Add a line to a file if the file does not exist, without passing regexp
+            lineinfile:
+                 path: /etc/fstab
+                 line: /dev/sdb1         /mydata/        xfs     defaults        0       0
+                 create: yes  
+                 state: present
+          - name: Add a line to a file if the file does not exist, without passing regexp
+            lineinfile:
+                 path: /etc/fstab
+                 line: /dev/sdb2         /mydata2/        ext4     defaults        0       0
+                 create: yes
+                 state: present
+          - name: Add a line to a file if the file does not exist, without passing regexp
+            lineinfile:
+                 path: /etc/fstab
+                 line: /dev/sdb3         swap        swap     defaults        0       0
+                 create: yes
+                 state: present
+
+
+          - name: Create a ext2 filesystem on /dev/sdb1
+            filesystem:
+                 fstype: xfs
+                 dev: /dev/sdb1
+          - name: Create a ext2 filesystem on /dev/sdb1
+            filesystem:
+                 fstype: ext4
+                 dev: /dev/sdb2
+
+          - name: swap
+            command: mkswap /dev/sdb3
+          - name: swap off 
+            command: swapoff -a 
+          - name: partprobe
+            command: partprobe           
+
+            
