@@ -11,10 +11,13 @@
              file:
                      name: /var/www/html/test
                      state: directory
+  #Don't having hosts.conf sample file copy from the
+  #/usr/share/doc/httpd/httpd-vhosts.conf for reference and edit it
            - name: copy the file
              copy:
                      src: hosts.conf
                      dest:  /etc/httpd/conf.d/hosts.conf
+  #index.html file should present
            - name: copy index.html
              copy:
                      src: index.html
