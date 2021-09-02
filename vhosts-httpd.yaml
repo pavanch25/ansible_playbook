@@ -25,3 +25,4 @@
            - name: service restart
              service:
                      name: httpd
+                     state: restarted
