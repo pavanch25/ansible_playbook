@@ -1,0 +1,41 @@
+---
+ - name: Installing the httpd
+   hosts: host02
+   become: yes
+   tasks:
+           - name: installing the httpd
+             yum:
+                     name: httpd
+                     state: installed
+           - name: test file
+             file:
+                     name: /var/www/html/test
+                     state: directory
+  #Don't having hosts.conf sample file copy from the
+  #/usr/share/doc/httpd/httpd-vhosts.conf for reference and edit it
+           - name: copy the file
+             copy:
+                     src: hosts.conf
+                     dest:  /etc/httpd/conf.d/hosts.conf
+  #index.html file should present
+           - name: copy index.html
+             copy:
+                     src: index.html
+                     dest: /var/www/html/test/index.html
+           - name: install pip
+             yum:
+                     name: python3-pip.noarch
+                     state: present
+           - name: install passlib
+             command: pip3 install passlib     
+           
+           - name: httpasswd
+             htpasswd:
+                     path: /var/www/html/test/.mypass
+                     name: pavan
+                     password: 'pass123'
+
+           - name: service restart
+             service:
+                     name: httpd
+                     state: restarted
