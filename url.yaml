@@ -1,0 +1,20 @@
+---
+ - name: check url
+   hosts: all
+   become: yes
+   tasks:
+       - block:
+          - name: Check that a page return
+            uri:
+                 url: http://www.google.com
+            register: 
+            this #this is a variable
+
+          - name: Accessible
+            debug:
+                 msg: Its accesible
+            when: this.status == 200
+         rescue:
+          - name: Not accessible
+            debug:
+                 msg: Not accesible
