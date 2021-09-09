@@ -1,0 +1,38 @@
+ - name: Check file contents
+   hosts: all
+   become: yes
+#  remote_user: userX
+   tasks:
+        - block:
+              - name: httpd installation
+                yum:
+                  name: httpd
+                  state: installed
+                register: result1
+              - name: Result of httpd
+                debug:
+                  msg: Installation failed
+                when: result1.changed == false
+          rescue:      
+              - name: httpd package
+                debug:
+                  msg: Httpd package not found...!
+        - block:
+
+              - name: service
+                service:
+                  name: httpd service
+                  state: started
+                register: result2
+              - name: Result of service
+                debug:
+                  msg: Service can not start
+                when: result2.changed == false
+          rescue:
+              - name: service
+                debug:
+                  msg: Service Not found
+        - name: final
+          debug: 
+              msg: Installation Could Not Happen Sorry
+          when: result2.failed == true and result1.failed == true
